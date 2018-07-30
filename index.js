@@ -25,6 +25,9 @@ load.path = function (dir) {
   var prebuild = getFirst(path.join(dir, 'prebuilds/' + platform + '-' + arch), matchPrebuild)
   if (prebuild) return prebuild
 
+  var napi = getFirst(path.join(dir, 'prebuilds/' + platform + '-' + arch), matchNapi)
+  if (napi) return napi
+
   throw new Error('No native build was found for runtime=' + runtime + ' abi=' + abi + ' platform=' + platform + ' arch=' + arch)
 }
 
@@ -40,6 +43,10 @@ function getFirst (dir, filter) {
 function matchPrebuild (name) {
   var parts = name.split('-')
   return parts[0] === runtime && parts[1] === abi + '.node'
+}
+
+function matchNapi (name) {
+  return name === 'node-napi.node'
 }
 
 function matchBuild (name) {
